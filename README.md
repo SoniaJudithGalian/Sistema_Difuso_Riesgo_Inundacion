@@ -9,7 +9,7 @@ Este sistema es un motor de inferencia basado en **Lógica Difusa** diseñado pa
 ## 🚀 Acceso a la Aplicación Interactiva (Avance 3)
 Para facilitar la evaluación de la cátedra sin requerir configuraciones ni instalaciones locales complejas, la aplicación interactiva con la interfaz gráfica se encuentra desplegada y funcionando de forma 100% online.
 
-👉 **[HACÉ CLIC AQUÍ PARA ABRIR LA APP EN VIVO](PEGÁ_ACÁ_EL_LINK_DE_STREAMLIT)**
+👉 **[HACÉ CLIC AQUÍ PARA ABRIR LA APP EN VIVO](https://sistemadifusoriesgoinundacion-dfvty3nzurybz8idunj2ws.streamlit.app/)**
 
 ---
 
