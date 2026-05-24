@@ -1,3 +1,4 @@
+
 # --- PARCHE DE COMPATIBILIDAD OBLIGATORIO PARA SCIPY ---
 import sys
 import scipy
@@ -20,14 +21,12 @@ st.write("Evaluación del riesgo hídrico urbano utilizando motores de inferenci
 # --- Inicialización del Motor Difuso en Caché ---
 @st.cache_resource
 def inicializar_sistema_difuso():
-    # Variables de entrada (Antecedentes) del Colab Municipal
     lluvia = ctrl.Antecedent(np.arange(0, 121, 1), 'lluvia')       
     humedad = ctrl.Antecedent(np.arange(0, 101, 1), 'humedad')     
     drenaje = ctrl.Antecedent(np.arange(0, 101, 1), 'drenaje')     
     alerta = ctrl.Antecedent(np.arange(0, 4, 1), 'alerta')         
     pendiente = ctrl.Antecedent(np.arange(0, 11, 1), 'pendiente')  
     
-    # Variable de salida (Consecuente)
     riesgo = ctrl.Consequent(np.arange(0, 1.1, 0.1), 'riesgo')     
 
     # Funciones de pertenencia exactas del notebook
@@ -58,7 +57,7 @@ def inicializar_sistema_difuso():
     riesgo['alto'] = fuzz.trimf(riesgo.universe, [0.5, 0.7, 0.9])  
     riesgo['critico'] = fuzz.trimf(riesgo.universe, [0.8, 1, 1])   
 
-    # Reglas difusas cargadas en el script
+    # --- BASE DE REGLAS MEJORADA Y COMPLETADA ---
     reglas = [
         ctrl.Rule(lluvia['alta'] & drenaje['bajo'], riesgo['critico']),   
         ctrl.Rule(alerta['fuerte'] & humedad['saturada'], riesgo['alto']),
@@ -66,6 +65,11 @@ def inicializar_sistema_difuso():
         ctrl.Rule(lluvia['baja'] & drenaje['alto'], riesgo['bajo']),      
         ctrl.Rule(alerta['critica'], riesgo['critico']),                  
         ctrl.Rule(pendiente['empinada'] & lluvia['alta'], riesgo['alto']),
+        
+        # Nuevas reglas para solucionar las inconsistencias de valores extremos:
+        ctrl.Rule(lluvia['critica'], riesgo['critico']), # Si la lluvia es crítica, el riesgo SIEMPRE es crítico
+        ctrl.Rule(lluvia['alta'] & humedad['saturada'], riesgo['critico']), # Lluvia alta con suelo saturado colapsa el drenaje
+        ctrl.Rule(lluvia['media'] & drenaje['bajo'], riesgo['alto']) # Lluvia media en zona sin drenaje es peligroso
     ]
     
     sc = ctrl.ControlSystem(reglas)
@@ -74,7 +78,7 @@ def inicializar_sistema_difuso():
 # Inicializar simulación
 sistema = inicializar_sistema_difuso()
 
-# --- Interfaz de Controles (Sliders y Selectbox) ---
+# --- Interfaz de Controles ---
 st.sidebar.header("Parámetros del Municipio")
 lluvia_input = st.sidebar.slider("Precipitación acumulada (mm)", 0, 120, 55) 
 humedad_input = st.sidebar.slider("Humedad del suelo (%)", 0, 100, 65)       
@@ -85,7 +89,7 @@ alerta_input = st.sidebar.selectbox(
     "Nivel de alerta meteorológica", 
     [0, 1, 2, 3],         
     format_func=lambda x: ["Sin alerta", "Moderada", "Fuerte", "Crítica"][x],
-    index=2
+    index=0
 )
 
 # Asignar valores al sistema difuso
