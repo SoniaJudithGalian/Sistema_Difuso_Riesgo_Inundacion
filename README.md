@@ -1,12 +1,12 @@
 
 # 💧 Sistema Experto Difuso de Riesgo Hídrico Municipal
 
-Trabajo Integrador Final para la Tecnicatura en Ciencia de Datos e IA Aplicada (UPATECO).
+Trabajo Integrador Final 
 
 ## 📋 Descripción del Proyecto
 Este sistema es un motor de inferencia basado en **Lógica Difusa** diseñado para evaluar el **Riesgo Hídrico Urbano** a nivel municipal. El sistema analiza variables ambientales, topográficas y meteorológicas críticas para predecir escenarios de inundación o amenazas climáticas, permitiendo a los municipios tomar decisiones preventivas y activar protocolos de emergencia.
 
-## 🚀 Acceso a la Aplicación Interactiva (Avance 3)
+## 🚀 Acceso a la Aplicación Interactiva 
 Para facilitar la evaluación de la cátedra sin requerir configuraciones ni instalaciones locales complejas, la aplicación interactiva con la interfaz gráfica se encuentra desplegada y funcionando de forma 100% online.
 
 👉 **[HACÉ CLIC AQUÍ PARA ABRIR LA APP EN VIVO](https://sistemadifusoriesgoinundacion-dfvty3nzurybz8idunj2ws.streamlit.app/)**
